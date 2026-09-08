@@ -9,3 +9,4 @@ jobs/*
 *.key
 *.key.pub
 *.pid
+.playwright-mcp/
