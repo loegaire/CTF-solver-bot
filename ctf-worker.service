@@ -1,0 +1,35 @@
+[Unit]
+Description=Autonomous CTF Dispatcher
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ctf
+Group=ctf
+WorkingDirectory=/opt/ctf-worker
+EnvironmentFile=/etc/ctf-worker/env
+ExecStart=/usr/bin/node /opt/ctf-worker/dist/index.js
+Restart=always
+RestartSec=5
+
+# Hardening (adjust to taste; the agent runs challenge binaries, so some
+# hardening is deliberately light — prefer a container for stronger isolation)
+NoNewPrivileges=false
+PrivateTmp=true
+ProtectSystem=false
+ProtectHome=false
+# Resource limits for the dispatcher + agent children. The agent inherits these;
+# keep generous on small boxes (MemoryMax below total RAM would OOM-kill pi runs).
+MemoryMax=infinity
+# swap-backed 500MB box: let the cgroup use everything; pi runs are memory-bounded
+# by the challenge itself, not by an artificial cap.
+TasksMax=512
+
+# Journald captures stdout/stderr of the dispatcher and (via journal) the runs
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ctf-worker
+
+[Install]
+WantedBy=multi-user.target

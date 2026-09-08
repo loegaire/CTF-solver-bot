@@ -1,0 +1,11 @@
+node_modules/
+dist/
+data/
+jobs/*
+!jobs/.gitkeep
+.env
+*.log
+.env.deploy
+*.key
+*.key.pub
+*.pid
