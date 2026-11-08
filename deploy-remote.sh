@@ -33,7 +33,7 @@ rsync -az --delete "${SSHOPTS[@]}" \
 rsync -az "${SSHOPTS[@]}" "$HERE/node_modules/" "$HOST:/opt/ctf-worker/node_modules/"
 
 echo "==> [3/4] copying secrets env (.env.deploy + challenge dir)"
-scp "${SSHOPTS[@]}" "$HERE/.env.deploy" "$HOST:/opt/ctf-worker/.env.deploy" 2>/dev/null && \
+scp "${SSHOPTS[@]}" "$HERE/.env.deploy" "$HOST:/opt/ctf-worker/.env.deploy" 2>/dev/null &&
     ssh "${SSHOPTS[@]}" "$HOST" "chmod 600 /opt/ctf-worker/.env.deploy"
 
 echo "==> [4/4] starting on the remote via run.sh"

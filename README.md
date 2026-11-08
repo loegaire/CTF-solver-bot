@@ -167,7 +167,7 @@ Copy `env.example` to `/etc/ctf-worker/env` (or `.env` in the working
 directory). Highlights:
 
 | Variable | Default | Meaning |
-|---|---|---|
+| --- | --- | --- |
 | `SOURCE` | `github` | `github` or `local` |
 | `GITHUB_REPO` | — | `owner/name` (required for github) |
 | `GITHUB_TOKEN` | — | PAT; strongly recommended (API rate limits) |

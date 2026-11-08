@@ -7,33 +7,33 @@ name: Init wiki
 # manual step, and whenever wiki sources change.
 
 on:
-  workflow_dispatch: {}
-  push:
-    paths:
-      - "wiki/**"
+    workflow_dispatch: {}
+    push:
+        paths:
+            - "wiki/**"
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  push-wiki:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    push-wiki:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
-      - name: Push wiki pages
-        env:
-          PAT: ${{ secrets.WIKI_PAT }}
-        run: |
-          set -euo pipefail
-          git config --global user.name "github-actions[bot]"
-          GIT_EMAIL="github-actions[bot]@users.noreply.github.com"
-          git config --global user.email "$GIT_EMAIL"
-          rm -rf /tmp/w && mkdir /tmp/w && cd /tmp/w
-          git init -q -b master
-          cp "$GITHUB_WORKSPACE"/wiki/*.md .
-          # only .md files, exclude this workflow's own docs if any
-          git add -A
-          git commit -qm "sync wiki pages" || { echo "no changes"; exit 0; }
-          WURL="https://${PAT}@github.com/loegaire/CTF-solver-bot.wiki.git"
-          git push "$WURL" master:master
+            - name: Push wiki pages
+              env:
+                  PAT: ${{ secrets.WIKI_PAT }}
+              run: |
+                  set -euo pipefail
+                  git config --global user.name "github-actions[bot]"
+                  GIT_EMAIL="github-actions[bot]@users.noreply.github.com"
+                  git config --global user.email "$GIT_EMAIL"
+                  rm -rf /tmp/w && mkdir /tmp/w && cd /tmp/w
+                  git init -q -b master
+                  cp "$GITHUB_WORKSPACE"/wiki/*.md .
+                  # only .md files, exclude this workflow's own docs if any
+                  git add -A
+                  git commit -qm "sync wiki pages" || { echo "no changes"; exit 0; }
+                  WURL="https://${PAT}@github.com/loegaire/CTF-solver-bot.wiki.git"
+                  git push "$WURL" master:master
